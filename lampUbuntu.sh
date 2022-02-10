@@ -28,14 +28,15 @@ installLibre() {
 }
 
 installtimesfont() {
+	echo -e "\n ${Cyan} Installing Times Font.. ${Color_Off}"
 	echo msttcorefonts msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
-	sudo apt install ttf-mscorefonts-installer
+	sudo apt install -y ttf-mscorefonts-installer
 	#sudo fc-cache -f -v
 }
 
 installchrome() {
+	echo -e "\n ${Cyan} Installing Chrome.. ${Color_Off}"
 	wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-
 	sudo dpkg -i google-chrome-stable_current_amd64.deb
 	sudo rm -rf google-chrome-stable_current_amd64.deb
 }
