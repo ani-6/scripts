@@ -23,7 +23,8 @@ update() {
 }
 installLibre() {
 	echo -e "\n ${Cyan} Installing Times Font, LibreOffice VScode and Chrome.. ${Color_Off}"
-	sudo apt install -y gnome-tweaks curl libreoffice-gnome libreoffice unzip x264
+	sudo apt install -y gnome-tweaks curl unzip x264 # libreoffice-gnome libreoffice
+	sudo snap install --classic libreoffice
 	sudo snap install --classic code
 }
 
