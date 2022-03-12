@@ -28,6 +28,10 @@ installLibre() {
 	sudo snap install --classic code
 }
 
+installgit(){
+	sudo apt -qq install git
+}
+
 installtimesfont() {
 	echo -e "\n ${Cyan} Installing Times Font.. ${Color_Off}"
 	echo msttcorefonts msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
@@ -115,6 +119,7 @@ restartApache() {
 # RUN
 update
 installLibre
+installgit
 installtimesfont
 installchrome
 installApache
