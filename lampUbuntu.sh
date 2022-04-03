@@ -29,7 +29,7 @@ installLibre() {
 }
 
 installgit(){
-	sudo apt -qq install git
+	sudo apt -qq install git -y
 }
 
 installtimesfont() {
