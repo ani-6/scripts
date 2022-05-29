@@ -26,37 +26,38 @@ installLibre() {
 	sudo apt install -y gnome-tweaks curl unzip x264 # libreoffice-gnome libreoffice
 	sudo snap install --classic libreoffice
 	sudo snap install --classic code
-}
+} &> /dev/null
 
 installgit(){
-	sudo apt -qq install git -y
-}
+	echo -e "\n ${Cyan} Installing git.. ${Color_Off}"
+	sudo apt install git -y
+} &> /dev/null
 
 installtimesfont() {
 	echo -e "\n ${Cyan} Installing Times Font.. ${Color_Off}"
 	echo msttcorefonts msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
 	sudo apt install -y ttf-mscorefonts-installer
 	#sudo fc-cache -f -v
-}
+} &> /dev/null
 
 installchrome() {
 	echo -e "\n ${Cyan} Installing Chrome.. ${Color_Off}"
 	wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 	sudo dpkg -i google-chrome-stable_current_amd64.deb
 	sudo rm -rf google-chrome-stable_current_amd64.deb
-}
+} &> /dev/null
 
 installApache() {
 	# Apache
 	echo -e "\n ${Cyan} Installing Apache.. ${Color_Off}"
-	sudo apt -qy install apache2 apache2-doc libexpat1 ssl-cert
-}
+	sudo apt install apache2 apache2-doc libexpat1 ssl-cert
+} &> /dev/null
 
 
 installPHP() {
 	echo -e "\n ${Cyan} Installing PHP and common Modules.. ${Color_Off}"
 	sudo apt -qy install php php-common libapache2-mod-php php-curl php-dev php-gd php-imagick php-intl php-mbstring php-mysql php-pear php-pspell php-xml php-zip
-}
+} &> /dev/null
 
 installMySQL() {
 	# MySQL
@@ -103,7 +104,7 @@ enableMods() {
 	echo -e "\n ${Cyan} Enabling Modules.. ${Color_Off}"
 	sudo a2enmod rewrite
 	sudo phpenmod mbstring # PHP7
-}
+} &> /dev/null
 
 setPermissions() {
 	echo -e "\n ${Cyan} Setting Ownership for /var/www.. ${Color_Off}"
