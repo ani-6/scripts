@@ -130,10 +130,18 @@ enableMods() {
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 } 
 
-setPermissions() {
+setPermissions1() {
 	echo -e "\n ${Cyan} Setting Ownership for /var/www.. ${Color_Off}"
 	{
 		sudo chown -R www-data:www-data /var/www
+	} &> /dev/null
+	echo -e "\n ${Green} Done.. ${Color_Off}"
+}
+
+setPermissions2() {
+	echo -e "\n ${Cyan} Setting Ownership for test ${Color_Off}"
+	{
+		sudo chown test /var/www/html
 	} &> /dev/null
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
@@ -159,7 +167,7 @@ installMySQL
 secureMySQL
 installPHPMyAdmin
 enableMods
-setPermissions
+setPermissions2
 restartApache
 
 echo -e "\n${Green} SUCCESS! MySQL password is: ${PASS_MYSQL_ROOT} ${Color_Off}"
