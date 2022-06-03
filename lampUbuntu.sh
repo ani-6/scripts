@@ -23,52 +23,71 @@ update() {
 }
 installLibre() {
 	echo -e "\n ${Cyan} Installing Times Font, LibreOffice VScode and Chrome.. ${Color_Off}"
-	sudo apt install -y gnome-tweaks curl unzip x264 # libreoffice-gnome libreoffice
-	sudo snap install --classic libreoffice
-	sudo snap install --classic code
-} &> /dev/null
+	{ 
+		sudo apt install -y gnome-tweaks curl unzip x264 # libreoffice-gnome libreoffice
+		sudo snap install --classic libreoffice
+		sudo snap install --classic code
+	} &> /dev/null
+} 
 
 installgit(){
 	echo -e "\n ${Cyan} Installing git.. ${Color_Off}"
-	sudo apt install git -y
-} &> /dev/null
+	{
+		sudo apt install git -y
+	} &> /dev/null
+	echo -e "\n ${Green} Done.. ${Color_Off}"
+}
 
 installtimesfont() {
-	echo -e "\n ${Cyan} Installing Times Font.. ${Color_Off}"
-	echo msttcorefonts msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
-	sudo apt install -y ttf-mscorefonts-installer
-	#sudo fc-cache -f -v
-} &> /dev/null
+		echo -e "\n ${Cyan} Installing Times Font.. ${Color_Off}"
+	{
+		echo msttcorefonts msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
+		sudo apt install -y ttf-mscorefonts-installer
+		#sudo fc-cache -f -v
+	} &> /dev/null
+	echo -e "\n ${Green} Done.. ${Color_Off}"
+}
 
 installchrome() {
 	echo -e "\n ${Cyan} Installing Chrome.. ${Color_Off}"
-	wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-	sudo dpkg -i google-chrome-stable_current_amd64.deb
-	sudo rm -rf google-chrome-stable_current_amd64.deb
-} &> /dev/null
+	{
+		wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+		sudo dpkg -i google-chrome-stable_current_amd64.deb
+		sudo rm -rf google-chrome-stable_current_amd64.deb
+	} &> /dev/null
+	echo -e "\n ${Green} Done.. ${Color_Off}"
+}
 
 installApache() {
 	# Apache
 	echo -e "\n ${Cyan} Installing Apache.. ${Color_Off}"
-	sudo apt install apache2 apache2-doc libexpat1 ssl-cert
-} &> /dev/null
+	{
+		sudo apt install -y apache2 apache2-doc libexpat1 ssl-cert
+	} &> /dev/null
+	echo -e "\n ${Green} Done.. ${Color_Off}"
+}
 
 
 installPHP() {
 	echo -e "\n ${Cyan} Installing PHP and common Modules.. ${Color_Off}"
-	sudo apt -qy install php php-common libapache2-mod-php php-curl php-dev php-gd php-imagick php-intl php-mbstring php-mysql php-pear php-pspell php-xml php-zip
-} &> /dev/null
+	{
+		sudo apt -qy install php php-common libapache2-mod-php php-curl php-dev php-gd php-imagick php-intl php-mbstring php-mysql php-pear php-pspell php-xml php-zip
+	}
+	echo -e "\n ${Green} Done.. ${Color_Off}"
+}
 
 installMySQL() {
 	# MySQL
 	echo -e "\n ${Cyan} Installing MySQL.. ${Color_Off}"
+	{
+		# set password with `debconf-set-selections` so you don't have to enter it in prompt and the script continues
+		sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password ${PASS_MYSQL_ROOT}" # new password for the MySQL root user
+		sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password ${PASS_MYSQL_ROOT}" # repeat password for the MySQL root user
 
-	# set password with `debconf-set-selections` so you don't have to enter it in prompt and the script continues
-	sudo debconf-set-selections <<< "mysql-server mysql-server/root_password password ${PASS_MYSQL_ROOT}" # new password for the MySQL root user
-	sudo debconf-set-selections <<< "mysql-server mysql-server/root_password_again password ${PASS_MYSQL_ROOT}" # repeat password for the MySQL root user
-
-	# DEBIAN_FRONTEND=noninteractive # by setting this to non-interactive, no questions will be asked
-	DEBIAN_FRONTEND=noninteractive sudo apt -qy install mysql-server mysql-client
+		# DEBIAN_FRONTEND=noninteractive # by setting this to non-interactive, no questions will be asked
+		DEBIAN_FRONTEND=noninteractive sudo apt -qy install mysql-server mysql-client
+	} &> /dev/null
+	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
 
 secureMySQL() {
@@ -82,39 +101,50 @@ DELETE FROM mysql.db WHERE Db='test' OR Db='test_%';
 FLUSH PRIVILEGES;
 EOFMYSQLSECURE
 
-}
+} &> /dev/null
 
 installPHPMyAdmin() {
 	# PHPMyAdmin
 	echo -e "\n ${Cyan} Installing PHPMyAdmin.. ${Color_Off}"
+ 	{
+		# set answers with `debconf-set-selections` so you don't have to enter it in prompt and the script continues
+		sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" # Select Web Server
+		sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/dbconfig-install boolean true" # Configure database for phpmyadmin with dbconfig-common
+		sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/app-pass password ${PASS_PHPMYADMIN_APP}" # Set MySQL application password for phpmyadmin
+		sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/app-password-confirm password ${PASS_PHPMYADMIN_APP}" # Confirm application password
+		sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/admin-pass password ${PASS_MYSQL_ROOT}" # MySQL Root Password
+		sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/internal/skip-preseed boolean true"
 
-	# set answers with `debconf-set-selections` so you don't have to enter it in prompt and the script continues
-	sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" # Select Web Server
-	sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/dbconfig-install boolean true" # Configure database for phpmyadmin with dbconfig-common
-	sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/app-pass password ${PASS_PHPMYADMIN_APP}" # Set MySQL application password for phpmyadmin
-	sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/app-password-confirm password ${PASS_PHPMYADMIN_APP}" # Confirm application password
-	sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/mysql/admin-pass password ${PASS_MYSQL_ROOT}" # MySQL Root Password
-	sudo debconf-set-selections <<< "phpmyadmin phpmyadmin/internal/skip-preseed boolean true"
-
-	DEBIAN_FRONTEND=noninteractive sudo apt -qy install phpmyadmin
+		DEBIAN_FRONTEND=noninteractive sudo apt -qy install phpmyadmin
+	} &> /dev/null
+	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
 
 
 enableMods() {
 	echo -e "\n ${Cyan} Enabling Modules.. ${Color_Off}"
-	sudo a2enmod rewrite
-	sudo phpenmod mbstring # PHP7
-} &> /dev/null
+	{
+		sudo a2enmod rewrite
+		sudo phpenmod mbstring # PHP7
+	} &> /dev/null
+	echo -e "\n ${Green} Done.. ${Color_Off}"
+} 
 
 setPermissions() {
 	echo -e "\n ${Cyan} Setting Ownership for /var/www.. ${Color_Off}"
-	sudo chown -R www-data:www-data /var/www
+	{
+		sudo chown -R www-data:www-data /var/www
+	} &> /dev/null
+	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
 
 restartApache() {
 	# Restart Apache
 	echo -e "\n ${Cyan} Restarting Apache.. ${Color_Off}"
-	sudo service apache2 restart
+	{
+		sudo service apache2 restart
+	} &> /dev/null
+	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
 
 # RUN
