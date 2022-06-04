@@ -146,6 +146,18 @@ setPermissions2() {
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
 
+redisinstall(){
+	echo -e "\n ${Cyan} Restarting Apache.. ${Color_Off}"
+	{
+		sudo apt install -y redis-server
+		sudo systemctl start redis-server
+		sudo systemctl enable redis-server
+		sudo apt install -y php-redis
+		sudo phpenmod redis
+	}
+	echo -e "\n ${Green} Done.. ${Color_Off}"
+}
+
 restartApache() {
 	# Restart Apache
 	echo -e "\n ${Cyan} Restarting Apache.. ${Color_Off}"
@@ -168,6 +180,7 @@ secureMySQL
 installPHPMyAdmin
 enableMods
 setPermissions2
+redisinstall
 restartApache
 
 echo -e "\n${Green} SUCCESS! MySQL password is: ${PASS_MYSQL_ROOT} ${Color_Off}"
