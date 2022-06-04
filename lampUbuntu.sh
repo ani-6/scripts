@@ -147,7 +147,7 @@ setPermissions2() {
 }
 
 redisinstall(){
-	echo -e "\n ${Cyan} Restarting Apache.. ${Color_Off}"
+	echo -e "\n ${Cyan} Installing Redis.. ${Color_Off}"
 	{
 		sudo apt install -y redis-server
 		sudo systemctl start redis-server
