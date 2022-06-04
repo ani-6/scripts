@@ -154,7 +154,7 @@ redisinstall(){
 		sudo systemctl enable redis-server
 		sudo apt install -y php-redis
 		sudo phpenmod redis
-	}
+	} &> /dev/null
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
 
