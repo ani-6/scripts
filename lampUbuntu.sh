@@ -22,12 +22,13 @@ update() {
 	sudo apt -qq update
 }
 installLibre() {
-	echo -e "\n ${Cyan} Installing Times Font, LibreOffice VScode and Chrome.. ${Color_Off}"
+	echo -e "\n ${Cyan} Installing Curl, Unzip, LibreOffice and VScode.. ${Color_Off}"
 	{ 
 		sudo apt install -y gnome-tweaks curl unzip x264 # libreoffice-gnome libreoffice
 		sudo snap install --classic libreoffice
 		sudo snap install --classic code
 	} &> /dev/null
+	echo -e "\n ${Green} Done.. ${Color_Off}"
 } 
 
 installgit(){
@@ -60,7 +61,7 @@ installchrome() {
 
 installApache() {
 	# Apache
-	echo -e "\n ${Cyan} Installing Apache.. ${Color_Off}"
+	echo -e "\n ${Cyan} Installing Apache2.. ${Color_Off}"
 	{
 		sudo apt install -y apache2 apache2-doc libexpat1 ssl-cert
 	} &> /dev/null
@@ -72,7 +73,7 @@ installPHP() {
 	echo -e "\n ${Cyan} Installing PHP and common Modules.. ${Color_Off}"
 	{
 		sudo apt -qy install php php-common libapache2-mod-php php-curl php-dev php-gd php-imagick php-intl php-mbstring php-mysql php-pear php-pspell php-xml php-zip
-	}
+	} &> /dev/null
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
 
