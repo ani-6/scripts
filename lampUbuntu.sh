@@ -31,8 +31,9 @@ installunzip(){
 }
 
 installLibre() {
-	  echo -e "\n ${Cyan} Installing Curl, Unzip, LibreOffice and VScode.. ${Color_Off}"
+	  echo -e "\n ${Cyan} Installing LibreOffice.. ${Color_Off}"
 	{ 
+	  echo -e "\n ${Yellow} This will take 10-15 mins.. ${Color_Off}"
 		sudo snap install --classic libreoffice
 	} &> /dev/null
 	echo -e "\n ${Green} Done.. ${Color_Off}"
@@ -183,10 +184,23 @@ restartApache() {
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
 
+installdocker(){
+  echo -e "\n ${Cyan} Installing Docker and Docker compose.. ${Color_Off}"
+	{ 
+		sudo apt install -y docker.io 
+		sudo systemctl enable --now docker
+    sudo usermod -aG docker ani
+    echo -e "\n ${Yellow} Installing Docker compose.. ${Color_Off}"
+    sudo curl -L "https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+	} &> /dev/null
+	echo -e "\n ${Green} Done.. ${Color_Off}"
+}
+
 # RUN
 update
 installunzip
-installLibre
+#installLibre
 installvscode
 installgit
 installtimesfont
@@ -200,5 +214,6 @@ enableMods
 setPermissions2
 redisinstall
 restartApache
+#installdocker
 
 echo -e "\n${Green} SUCCESS! MySQL password is: ${PASS_MYSQL_ROOT} ${Color_Off}"
