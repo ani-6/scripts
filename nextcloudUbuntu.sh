@@ -50,8 +50,7 @@ VirtualHost(){
     echo "<VirtualHost *:80>
         ServerAdmin admin@example.com
         DocumentRoot "/var/www/html/nextcloud"
-        ServerName pcloud.com
-        ServerAlias www.pcloud.com
+        ServerName localhost/nextcloud
 
         ErrorLog ${APACHE_LOG_DIR}/nextcloud.error
         CustomLog ${APACHE_LOG_DIR}/nextcloud.access combined
@@ -102,11 +101,11 @@ cleaning(){
 
 
 #Run
-update
-installphpext
-getlatestnextcloud
+#update
+#installphpext
+#getlatestnextcloud
 setPermissions
-#VirtualHost
+VirtualHost
 setapacheprem
 phpmemlimit
 cleaning
