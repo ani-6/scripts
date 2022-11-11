@@ -21,15 +21,30 @@ update() {
 	echo -e "\n ${Cyan} Updating package repositories.. ${Color_Off}"
 	sudo apt -qq update
 }
-installLibre() {
-	echo -e "\n ${Cyan} Installing Curl, Unzip, LibreOffice and VScode.. ${Color_Off}"
+
+installunzip(){
+    echo -e "\n ${Cyan} Installing Curl, Unzip and Codec.. ${Color_Off}"
 	{ 
-		sudo apt install -y gnome-tweaks curl unzip x264 # libreoffice-gnome libreoffice
+		sudo apt install -y gnome-tweaks curl unzip x264 net-tools
+	} &> /dev/null
+	echo -e "\n ${Green} Done.. ${Color_Off}"
+}
+
+installLibre() {
+	  echo -e "\n ${Cyan} Installing Curl, Unzip, LibreOffice and VScode.. ${Color_Off}"
+	{ 
 		sudo snap install --classic libreoffice
-		sudo snap install --classic code
 	} &> /dev/null
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 } 
+
+installvscode(){
+    echo -e "\n ${Cyan} Installing VScode.. ${Color_Off}"
+	{ 
+		sudo snap install --classic code
+	} &> /dev/null
+	echo -e "\n ${Green} Done.. ${Color_Off}"
+}
 
 installgit(){
 	echo -e "\n ${Cyan} Installing git.. ${Color_Off}"
@@ -170,7 +185,9 @@ restartApache() {
 
 # RUN
 update
+installunzip
 installLibre
+installvscode
 installgit
 installtimesfont
 installchrome
