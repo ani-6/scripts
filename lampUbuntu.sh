@@ -156,9 +156,9 @@ setPermissions1() {
 }
 
 setPermissions2() {
-	echo -e "\n ${Cyan} Setting Ownership for test ${Color_Off}"
+	echo -e "\n ${Cyan} Setting Ownership for User ${Color_Off}"
 	{
-		sudo chown test /var/www/html
+		sudo chown ani /var/www/html
 	} &> /dev/null
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
