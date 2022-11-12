@@ -31,9 +31,9 @@ installunzip(){
 }
 
 installLibre() {
-	  echo -e "\n ${Cyan} Installing LibreOffice.. ${Color_Off}"
+	echo -e "\n ${Cyan} Installing LibreOffice.. ${Color_Off}"
 	{ 
-	  echo -e "\n ${Yellow} This will take 10-15 mins.. ${Color_Off}"
+	  	echo -e "\n ${Yellow} This will take 10-15 mins.. ${Color_Off}"
 		sudo snap install --classic libreoffice
 	} &> /dev/null
 	echo -e "\n ${Green} Done.. ${Color_Off}"
@@ -56,7 +56,7 @@ installgit(){
 }
 
 installtimesfont() {
-		echo -e "\n ${Cyan} Installing Times Font.. ${Color_Off}"
+	echo -e "\n ${Cyan} Installing Times Font.. ${Color_Off}"
 	{
 		echo msttcorefonts msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
 		sudo apt install -y ttf-mscorefonts-installer
@@ -186,13 +186,14 @@ restartApache() {
 
 installdocker(){
   echo -e "\n ${Cyan} Installing Docker and Docker compose.. ${Color_Off}"
-	{ 
+	{
+		echo -e "\n ${Yellow} Installing Docker.. ${Color_Off}"
 		sudo apt install -y docker.io 
 		sudo systemctl enable --now docker
-    sudo usermod -aG docker ani
-    echo -e "\n ${Yellow} Installing Docker compose.. ${Color_Off}"
-    sudo curl -L "https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    sudo chmod +x /usr/local/bin/docker-compose
+		sudo usermod -aG docker ani
+		echo -e "\n ${Yellow} Installing Docker compose.. ${Color_Off}"
+		sudo curl -L "https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+		sudo chmod +x /usr/local/bin/docker-compose
 	} &> /dev/null
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
