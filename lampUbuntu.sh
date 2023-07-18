@@ -23,9 +23,9 @@ update() {
 }
 
 installunzip(){
-    echo -e "\n ${Cyan} Installing Curl, Unzip and Codec.. ${Color_Off}"
+    echo -e "\n ${Cyan} Installing Curl, Unzip and tools... ${Color_Off}"
 	{ 
-		sudo apt install -y gnome-tweaks curl unzip x264 net-tools
+		sudo apt install -y curl unzip x264 net-tools python3-dev default-libmysqlclient-dev
 	} &> /dev/null
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
@@ -43,6 +43,14 @@ installvscode(){
     echo -e "\n ${Cyan} Installing VScode.. ${Color_Off}"
 	{ 
 		sudo snap install --classic code
+	} &> /dev/null
+	echo -e "\n ${Green} Done.. ${Color_Off}"
+}
+
+installopera(){
+    echo -e "\n ${Cyan} Installing Opera.. ${Color_Off}"
+	{ 
+		sudo snap install opera
 	} &> /dev/null
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
@@ -203,6 +211,7 @@ update
 installunzip
 #installLibre
 installvscode
+installopera
 installgit
 installtimesfont
 installchrome
