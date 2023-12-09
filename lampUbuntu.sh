@@ -11,8 +11,8 @@ Purple='\033[0;35m'       # Purple
 Cyan='\033[0;36m'         # Cyan
 
 
-PASS_MYSQL_ROOT='Site@123' # mysql root password
-PASS_PHPMYADMIN_APP='Site@123' # can be random, won't be used again
+PASS_MYSQL_ROOT='SqlAdmin987' # mysql root password
+PASS_PHPMYADMIN_APP='SqlAdmin987' # can be random, won't be used again
 PASS_PHPMYADMIN_ROOT="${PASS_MYSQL_ROOT}" # Your MySQL root pass
 
 
