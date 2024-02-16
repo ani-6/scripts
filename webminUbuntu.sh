@@ -16,8 +16,6 @@ sudo apt install apt-transport-https -y
 sudo apt install webmin -y
 
 # Add UFW Firewall Rule for Webmin port
-# sudo ufw allow 10000/tcp
-# sudo ufw allow webmin
 
 # default port: 10000
 # default login: the server login of the user who installed
