@@ -47,7 +47,7 @@ bkp_permission() {
 
 # Backup to mega drive
 bkp_mega() {
-    echo -e "\n ${Blue} Uploading fieles to mega ${Color_Of}"
+    echo -e "\n ${Blue} Uploading files to mega ${Color_Of}"
     source ${virtual_env_dir}/bin/activate
     python3 upload_to_mega.py ${mega_email} ${mega_password} ${mega_folder} ${directory}
     deactivate
