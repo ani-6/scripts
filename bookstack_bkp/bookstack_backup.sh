@@ -45,8 +45,8 @@ bkp_permission() {
     chmod -R +666 ${directory}
 }
 
-# Activate Virtual environment
-bkp_virtualEnv() {
+# Backup to mega drive
+bkp_mega() {
     echo -e "\n ${Blue} Uploading fieles to mega ${Color_Of}"
     source ${virtual_env_dir}/bin/activate
     python3 upload_to_mega.py ${mega_email} ${mega_password} ${mega_folder} ${directory}
@@ -59,4 +59,4 @@ bkp_directory
 bkp_database
 bkp_dataFolder
 bkp_permission
-bkp_virtualEnv
+bkp_mega
