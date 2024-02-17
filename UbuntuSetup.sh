@@ -22,7 +22,7 @@ update() {
 	sudo apt -qq update
 }
 
-installunzip(){
+install_devTools(){
     echo -e "\n ${Cyan} Installing Curl, Unzip and tools... ${Color_Off}"
 	{ 
 		sudo apt install -y curl unzip x264 net-tools python3-dev default-libmysqlclient-dev
@@ -30,32 +30,7 @@ installunzip(){
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
 
-installLibre() {
-	echo -e "\n ${Cyan} Installing LibreOffice.. ${Color_Off}"
-	{ 
-	  	echo -e "\n ${Yellow} This will take 10-15 mins.. ${Color_Off}"
-		sudo snap install --classic libreoffice
-	} &> /dev/null
-	echo -e "\n ${Green} Done.. ${Color_Off}"
-} 
-
-installvscode(){
-    echo -e "\n ${Cyan} Installing VScode.. ${Color_Off}"
-	{ 
-		sudo snap install --classic code
-	} &> /dev/null
-	echo -e "\n ${Green} Done.. ${Color_Off}"
-}
-
-installopera(){
-    echo -e "\n ${Cyan} Installing Opera.. ${Color_Off}"
-	{ 
-		sudo snap install opera
-	} &> /dev/null
-	echo -e "\n ${Green} Done.. ${Color_Off}"
-}
-
-installgit(){
+install_git(){
 	echo -e "\n ${Cyan} Installing git.. ${Color_Off}"
 	{
 		sudo apt install git -y
@@ -63,27 +38,15 @@ installgit(){
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
 
-installtimesfont() {
-	echo -e "\n ${Cyan} Installing Times Font.. ${Color_Off}"
-	{
-		echo msttcorefonts msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
-		sudo apt install -y ttf-mscorefonts-installer
-		#sudo fc-cache -f -v
+install_vscode(){
+    echo -e "\n ${Cyan} Installing VScode.. ${Color_Off}"
+	{ 
+		sudo snap install --classic code
 	} &> /dev/null
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
 
-installchrome() {
-	echo -e "\n ${Cyan} Installing Chrome.. ${Color_Off}"
-	{
-		wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-		sudo dpkg -i google-chrome-stable_current_amd64.deb
-		sudo rm -rf google-chrome-stable_current_amd64.deb
-	} &> /dev/null
-	echo -e "\n ${Green} Done.. ${Color_Off}"
-}
-
-installApache() {
+install_apache2() {
 	# Apache
 	echo -e "\n ${Cyan} Installing Apache2.. ${Color_Off}"
 	{
@@ -92,8 +55,7 @@ installApache() {
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
 
-
-installPHP() {
+install_php() {
 	echo -e "\n ${Cyan} Installing PHP and common Modules.. ${Color_Off}"
 	{
 		sudo apt -qy install php php-common libapache2-mod-php php-curl php-dev php-gd php-imagick php-intl php-mbstring php-mysql php-pear php-pspell php-xml php-zip
@@ -101,7 +63,7 @@ installPHP() {
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
 
-installMySQL() {
+install_mysql() {
 	# MySQL
 	echo -e "\n ${Cyan} Installing MySQL.. ${Color_Off}"
 	{
@@ -115,7 +77,7 @@ installMySQL() {
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
 
-secureMySQL() {
+secure_mysql() {
 	# secure MySQL install
 	echo -e "\n ${Cyan} Securing MySQL.. ${Color_Off}"
 
@@ -128,7 +90,7 @@ EOFMYSQLSECURE
 
 } &> /dev/null
 
-installPHPMyAdmin() {
+install_phpmyadmin() {
 	# PHPMyAdmin
 	echo -e "\n ${Cyan} Installing PHPMyAdmin.. ${Color_Off}"
  	{
@@ -145,8 +107,7 @@ installPHPMyAdmin() {
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
 
-
-enableMods() {
+enable_mods() {
 	echo -e "\n ${Cyan} Enabling Modules.. ${Color_Off}"
 	{
 		sudo a2enmod rewrite
@@ -155,15 +116,7 @@ enableMods() {
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 } 
 
-setPermissions1() {
-	echo -e "\n ${Cyan} Setting Ownership for /var/www.. ${Color_Off}"
-	{
-		sudo chown -R www-data:www-data /var/www
-	} &> /dev/null
-	echo -e "\n ${Green} Done.. ${Color_Off}"
-}
-
-setPermissions2() {
+set_permissions() {
 	echo -e "\n ${Cyan} Setting Ownership for User ${Color_Off}"
 	{
 		sudo chown ani /var/www/html
@@ -171,7 +124,7 @@ setPermissions2() {
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
 
-redisinstall(){
+install_redis(){
 	echo -e "\n ${Cyan} Installing Redis.. ${Color_Off}"
 	{
 		sudo apt install -y redis-server
@@ -183,47 +136,80 @@ redisinstall(){
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
 
-restartApache() {
+restart_apache2() {
 	# Restart Apache
-	echo -e "\n ${Cyan} Restarting Apache.. ${Color_Off}"
+	echo -e "\n ${Cyan} Restarting Apache2.. ${Color_Off}"
 	{
 		sudo service apache2 restart
 	} &> /dev/null
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
 
-installdocker(){
+install_dockerCompose(){
   echo -e "\n ${Cyan} Installing Docker and Docker compose.. ${Color_Off}"
 	{
-		echo -e "\n ${Yellow} Installing Docker.. ${Color_Off}"
-		sudo apt install -y docker.io 
-		sudo systemctl enable --now docker
-		sudo usermod -aG docker ani
 		echo -e "\n ${Yellow} Installing Docker compose.. ${Color_Off}"
-		sudo curl -L "https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-		sudo chmod +x /usr/local/bin/docker-compose
+		sudo apt install -y docker-compose
+		sudo chmod 777 /var/run/docker.sock
+	} &> /dev/null
+	echo -e "\n ${Green} Done.. ${Color_Off}"
+}
+
+install_libreOffice() {
+	echo -e "\n ${Cyan} Installing LibreOffice.. ${Color_Off}"
+	{ 
+	  	echo -e "\n ${Yellow} This will take 10-15 mins.. ${Color_Off}"
+		sudo snap install --classic libreoffice
+	} &> /dev/null
+	echo -e "\n ${Green} Done.. ${Color_Off}"
+} 
+
+install_opera(){
+    echo -e "\n ${Cyan} Installing Opera.. ${Color_Off}"
+	{ 
+		sudo snap install opera
+	} &> /dev/null
+	echo -e "\n ${Green} Done.. ${Color_Off}"
+}
+
+install_chrome() {
+	echo -e "\n ${Cyan} Installing Chrome.. ${Color_Off}"
+	{
+		wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+		sudo dpkg -i google-chrome-stable_current_amd64.deb
+		sudo rm -rf google-chrome-stable_current_amd64.deb
+	} &> /dev/null
+	echo -e "\n ${Green} Done.. ${Color_Off}"
+}
+
+install_timesfont() {
+	echo -e "\n ${Cyan} Installing Times Font.. ${Color_Off}"
+	{
+		echo msttcorefonts msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
+		sudo apt install -y ttf-mscorefonts-installer
+		#sudo fc-cache -f -v
 	} &> /dev/null
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
 
 # RUN
 update
-installunzip
-#installLibre
-installvscode
-installopera
-installgit
-installtimesfont
-installchrome
-installApache
-installPHP
-installMySQL
-secureMySQL
-installPHPMyAdmin
-enableMods
-setPermissions2
-redisinstall
-restartApache
-#installdocker
+install_devTools
+install_git
+install_vscode
+install_apache2
+install_php
+install_mysql
+secure_mysql
+install_phpmyadmin
+enable_mods
+set_permissions
+install_redis
+restart_apache2
+install_dockerCompose
+#install_libreOffice
+install_opera
+install_chrome
+install_timesfont
 
 echo -e "\n${Green} SUCCESS! MySQL password is: ${PASS_MYSQL_ROOT} ${Color_Off}"
