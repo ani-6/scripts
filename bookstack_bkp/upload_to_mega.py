@@ -5,6 +5,7 @@ email = sys.argv[1]
 password = sys.argv[2]
 folder_to_upload = sys.argv[3]
 directory = sys.argv[4]
+data_dir_path = sys.argv[5]
 
 
 def login_to_mega(email,password):
@@ -18,7 +19,7 @@ def login_to_mega(email,password):
 
 def get_all_files_to_upload():
     try:
-        dir_list = [f for f in os.listdir(directory) if not f.startswith('.')]
+        dir_list = [f for f in os.listdir(data_dir_path +"bookstack/" + directory) if not f.startswith('.')]
         return dir_list
     except Exception as error:
         print('Error: ',error)
@@ -29,7 +30,7 @@ def upload_files(list,m):
     try:
         folder = m.find(folder_to_upload)
         for f in list:
-            upload_file = directory + '/' + f
+            upload_file = data_dir_path + "bookstack/" + directory + '/' + f
             print(upload_file)
             file = m.upload(upload_file, folder[0])
         return "All files uploaded sucessfully" 
