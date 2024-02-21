@@ -17,10 +17,15 @@ def login_to_mega(email,password):
         print('Bad login!')
         sys.exit(0)
 
-def get_all_files_to_upload():
+def get_files_to_upload():
     try:
-        dir_list = [f for f in os.listdir(data_dir_path +"bookstack/" + directory) if not f.startswith('.')]
-        return dir_list
+        path = data_dir_path + "bookstack/" + directory
+        files = os.listdir(path)
+        files_with_times = [(file, os.path.getmtime(os.path.join(path, file))) for file in files]
+        
+        sorted_files = sorted(files_with_times, key=lambda x: x[1], reverse=True)
+        
+        return [file[0] for file in sorted_files[:2]]
     except Exception as error:
         print('Error: ',error)
 
@@ -31,7 +36,6 @@ def upload_files(list,m):
         folder = m.find(folder_to_upload)
         for f in list:
             upload_file = data_dir_path + "bookstack/" + directory + '/' + f
-            print(upload_file)
             file = m.upload(upload_file, folder[0])
         return "All files uploaded sucessfully" 
     except Exception as error:
@@ -41,7 +45,7 @@ def upload_files(list,m):
 if __name__ == "__main__":
     try:
         m = login_to_mega(email,password)
-        list = get_all_files_to_upload()
+        list = get_files_to_upload()
         result = upload_files(list,m)
         print(result)
     except KeyboardInterrupt:
