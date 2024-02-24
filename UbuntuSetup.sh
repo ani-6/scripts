@@ -25,7 +25,7 @@ update() {
 install_devTools(){
     echo -e "\n ${Cyan} Installing Curl, Unzip and tools... ${Color_Off}"
 	{ 
-		sudo apt install -y curl unzip x264 net-tools python3-dev default-libmysqlclient-dev
+		sudo apt install -y curl unzip x264 net-tools python3-dev default-libmysqlclient-dev python3.10-venv
 	} &> /dev/null
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
@@ -58,7 +58,7 @@ install_apache2() {
 install_php() {
 	echo -e "\n ${Cyan} Installing PHP and common Modules.. ${Color_Off}"
 	{
-		sudo apt -qy install php php-common libapache2-mod-php php-curl php-dev php-gd php-imagick php-intl php-mbstring php-mysql php-pear php-pspell php-xml php-zip
+		sudo apt -qy install php php-common libapache2-mod-php php-curl php-dev php-gd php-imagick php-intl php-mbstring php-mysql php-pear php-pspell php-xml php-zip php-sqlite3
 	} &> /dev/null
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
