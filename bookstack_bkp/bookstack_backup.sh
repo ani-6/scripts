@@ -29,7 +29,7 @@ bkp_directory() {
 # Backup docker database in sql format
 bkp_database() {
     echo -e "\n ${Blue} Backing up database ${Color_Off}"
-    docker exec bookstack_db /usr/bin/mysqldump -u bookstack  --password=${dbpass} bookstackapp > ${data_dir_path}/bookstack/${directory}/bookstack_db_$(date -d "today" +"%Y%m%d%H%M").sql
+    docker exec bookstack_db /usr/bin/mysqldump -u bookstack  --password=${dbpass} bookstackapp > ${data_dir_path}/bookstack/${directory}/bookstack_db_$(date -d "today" +"%Y_%m_%d_%H_%M").sql
     echo -e "\n ${Green} Database backup completed ${Color_Off}"
 }
 
@@ -37,7 +37,7 @@ bkp_database() {
 bkp_dataFolder() {
     echo -e "\n ${Blue} Backing up APP Data ${Color_Off}"
     timestamp=$(date +%Y_%m_%d_%H_%M)
-    tar -czf ${data_dir_path}/bookstack/${directory}/bookstack_appdata_${timestamp}.tar.gz -C ${data_dir_path} bookstack
+    tar --exclude='backup' -czf ${data_dir_path}/bookstack/${directory}/bookstack_appdata_${timestamp}.tar.gz -C ${data_dir_path} bookstack
     echo -e "\n ${Green} APP Data backup completed ${Color_Off}"
 }
 
@@ -59,5 +59,5 @@ bkp_mega() {
 bkp_directory
 bkp_database
 bkp_dataFolder
-bkp_permission
+#bkp_permission
 bkp_mega
