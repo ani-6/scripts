@@ -37,7 +37,7 @@ def upload_files(list,m):
         for f in list:
             upload_file = data_dir_path + "bookstack/" + directory + '/' + f
             file = m.upload(upload_file, folder[0])
-        return "All files uploaded sucessfully" 
+        return "Success"
     except Exception as error:
         print('Error: ',error)
 

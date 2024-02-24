@@ -1,13 +1,8 @@
 #!/bin/bash
+__FILE__=$0
 
-dbpass=''        # Docker db password
-shell_path='/var/www/html/scripts/bookstack_bkp/'
-directory="backup"      # Folder to keep backup
-data_dir_path='/var/www/html/'      # Make sure your all data in 'bookstack' folder and it is not mentioned in this path
-virtual_env_dir='/var/www/html/venv'        # Define virtual env dir for backup
-mega_email=''
-mega_password=''
-mega_folder='bookstack_backups'
+. $(dirname $0)/config.config
+
 # Color Reset
 Color_Off='\033[0m'       # Reset
 Blue='\033[0;34m'         # Blue
@@ -50,7 +45,7 @@ bkp_permission() {
 bkp_mega() {
     echo -e "\n ${Blue} Uploading files to mega ${Color_Off}"
     source ${virtual_env_dir}/bin/activate
-    python3 ${shell_path}/upload_to_mega.py ${mega_email} ${mega_password} ${mega_folder} ${directory} ${data_dir_path}
+    python3 $(dirname $0)/upload_to_mega.py ${mega_email} ${mega_password} ${mega_folder} ${directory} ${data_dir_path}
     deactivate
     echo -e "\n ${Green} Backupfiles moved to mega ${Color_Off}"
 }
