@@ -4,6 +4,9 @@ dbpass=''
 directory="bookstack"      # Folder to restore files
 filename=$1
 
+oldUrl=''       # Previous url
+newUrl='http://http://localhost:8080'       # Current url
+
 # Color Reset
 Color_Off='\033[0m'       # Reset
 Blue='\033[0;34m'         # Blue
@@ -35,6 +38,12 @@ rst_dbManual() {
     echo -e "\n ${Green} Completed ${Color_Off}"
 }
 
+rst_changeURL(){
+    echo -e "\n ${Blue} Changing URL ${Color_Off}"
+    docker exec bookstack /bin/bash -c "cd app/www;php artisan bookstack:update-url ${oldUrl} ${newUrl};php artisan cache:clear"
+    echo -e "\n ${Blue} Changed URL successfully ${Color_Off}"
+}
+
 rst_notice() {
     echo -e "\n ${Red} Don't forget to change url in docker file and recreate the container ${Color_Off}"
     echo -e "\n ${Red} Also excute 'php artisan bookstack:update-url <oldUrl> <newUrl>' inside container ${Color_Off}"
@@ -44,4 +53,5 @@ rst_notice() {
 rst_restore
 rst_containers
 #rst_dbManual
-rst_notice
+rst_changeURL
+#rst_notice
