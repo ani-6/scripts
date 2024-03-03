@@ -1,11 +1,10 @@
 #!/bin/bash
+__FILE__=$0
 
-dbpass=''
-directory="bookstack"      # Folder to restore files
+. $(dirname $0)/config.config
+
 filename=$1
 
-oldUrl=''       # Previous url
-newUrl='http://http://localhost:8080'       # Current url
 
 # Color Reset
 Color_Off='\033[0m'       # Reset
@@ -19,16 +18,16 @@ Red='\033[0;31m'          # Red
 echo -e "\n ${Cyan} Starting Bookstack server restore (Docker installation) ${Color_Off}"
 rst_restore() {
     echo -e "\n ${Blue} Decompressing files ${Color_Off}"
-    if [ ! -d "$directory" ]; then       
+    if [ ! -d "${base_dir}/$directory" ]; then       
         mkdir -p "$directory"
     fi
-    tar -xzf ${filename}
+    tar -xzf ${base_dir}/${filename}
     
 }
 
 rst_containers() {
     echo -e "\n ${Blue} Decompressing files "
-    docker-compose -f ${directory}/docker-compose.yml up -d
+    docker-compose -f ${base_dir}/${directory}/docker-compose.yml up -d
     echo -e "\n ${Green} Completed ${Color_Off}"
 }
 
