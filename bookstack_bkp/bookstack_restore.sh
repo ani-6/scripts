@@ -39,7 +39,7 @@ rst_dbManual() {
 
 rst_changeURL(){
     echo -e "\n ${Blue} Changing URL ${Color_Off}"
-    docker exec bookstack /bin/bash -c "cd app/www;php artisan bookstack:update-url ${oldUrl} ${newUrl};php artisan cache:clear"
+    docker exec bookstack /bin/bash -c "cd app/www;yes | php artisan bookstack:update-url ${oldUrl} ${newUrl};php artisan cache:clear"
     echo -e "\n ${Blue} Changed URL successfully ${Color_Off}"
 }
 
