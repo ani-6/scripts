@@ -150,7 +150,7 @@ install_dockerCompose(){
 	{
 		echo -e "\n ${Yellow} Installing Docker compose.. ${Color_Off}"
 		sudo apt install -y docker-compose
-		sudo chmod 777 /var/run/docker.sock
+		sudo chmod +777 /var/run/docker.sock
 	} &> /dev/null
 	echo -e "\n ${Green} Done.. ${Color_Off}"
 }
