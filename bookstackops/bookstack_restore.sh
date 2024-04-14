@@ -25,10 +25,10 @@ rst_restore() {
         exit 1
     fi
 
-    if [ -d "${base_dir}/$directory" ]; then
+    if [ -d "${base_dir}/$rst_directory" ]; then
     # Remove the directory
-    echo -e "\n ${Blue} Found existing $directory directory \n  Removing the old directory ${Color_Off}"
-    rm -r "${base_dir}/$directory"
+    echo -e "\n ${Blue} Found existing $rst_directory directory \n  Removing the old directory ${Color_Off}"
+    rm -r "${base_dir}/$rst_directory"
     fi
 
     LATEST_FILE=$(ls -1 ${base_dir}/bookstack_appdata_*.tar.gz 2>/dev/null | sort -r | head -n 1)
@@ -48,13 +48,13 @@ rst_changeDockerURL() {
     YAML_FILE="docker-compose.yml"
 
     # Use sed to replace the value of APP_URL in the YAML file
-    sed -i "s|^\(\s*- APP_URL=\).*\$|\1${newUrl}|" "${base_dir}/${directory}/$YAML_FILE"
+    sed -i "s|^\(\s*- APP_URL=\).*\$|\1${newUrl}|" "${base_dir}/${rst_directory}/$YAML_FILE"
     echo -e "\n ${Blue} URL Changed successfully. ${Color_Off}"
 }
 
 rst_containers() {
     echo -e "\n ${Blue} Starting docker container "
-    docker-compose -f ${base_dir}/${directory}/docker-compose.yml up -d
+    docker-compose -f ${base_dir}/${rst_directory}/docker-compose.yml up -d
     echo -e "\n ${Green} Docker container is up and running ${Color_Off}"
 }
 

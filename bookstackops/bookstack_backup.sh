@@ -13,18 +13,18 @@ Cyan='\033[0;36m'         # Cyan
 echo -e "\n ${Cyan} Starting Bookstack server backup (Docker installation) ${Color_Off}"
 # Create a new backup directory if does not exists
 bkp_directory() {
-    if [ ! -d "$data_dir_path/bookstack/$directory" ]; then       
-        mkdir -p "$data_dir_path/bookstack/$directory"
-        echo -e "\n ${Green} Directory '$directory' created.${Color_Off}"
+    if [ ! -d "$data_dir_path/bookstack/$bkp_directory" ]; then       
+        mkdir -p "$data_dir_path/bookstack/$bkp_directory"
+        echo -e "\n ${Green} Directory '$bkp_directory' created.${Color_Off}"
     else
-        echo -e "\n ${Yellow} Directory '$directory' already exists.${Color_Off}"
+        echo -e "\n ${Yellow} Directory '$bkp_directory' already exists.${Color_Off}"
     fi
 }
 
 # Backup docker database in sql format
 bkp_database() {
     echo -e "\n ${Blue} Backing up database ${Color_Off}"
-    docker exec bookstack_db /usr/bin/mysqldump -u bookstack  --password=${dbpass} bookstackapp > ${data_dir_path}/bookstack/${directory}/bookstack_db_$(date -d "today" +"%Y_%m_%d_%H_%M").sql
+    docker exec bookstack_db /usr/bin/mysqldump -u bookstack  --password=${dbpass} bookstackapp > ${data_dir_path}/bookstack/${bkp_directory}/bookstack_db_$(date -d "today" +"%Y_%m_%d_%H_%M").sql
     echo -e "\n ${Green} Database backup completed ${Color_Off}"
 }
 
@@ -32,20 +32,20 @@ bkp_database() {
 bkp_dataFolder() {
     echo -e "\n ${Blue} Backing up APP Data ${Color_Off}"
     timestamp=$(date +%Y_%m_%d_%H_%M)
-    tar --exclude='backup' -czf ${data_dir_path}/bookstack/${directory}/bookstack_appdata_${timestamp}.tar.gz -C ${data_dir_path} bookstack
+    tar --exclude='backup' -czf ${data_dir_path}/bookstack/${bkp_directory}/bookstack_appdata_${timestamp}.tar.gz -C ${data_dir_path} bookstack
     echo -e "\n ${Green} APP Data backup completed ${Color_Off}"
 }
 
 # Change permission of backup folder
 bkp_permission() {
-    chmod -R +666 ${data_dir_path}/bookstack/${directory}
+    chmod -R +666 ${data_dir_path}/bookstack/${bkp_directory}
 }
 
 # Backup to mega drive
 bkp_mega() {
     echo -e "\n ${Blue} Uploading files to mega ${Color_Off}"
     source ${virtual_env_dir}/bin/activate
-    python3 $(dirname $0)/upload_to_mega.py ${mega_email} ${mega_password} ${mega_folder} ${directory} ${data_dir_path}
+    python3 $(dirname $0)/upload_to_mega.py ${mega_email} ${mega_password} ${mega_folder} ${bkp_directory} ${data_dir_path}
     deactivate
     echo -e "\n ${Green} Backupfiles moved to mega ${Color_Off}"
 }
@@ -54,5 +54,5 @@ bkp_mega() {
 bkp_directory
 bkp_database
 bkp_dataFolder
-#bkp_permission
+bkp_permission
 bkp_mega
