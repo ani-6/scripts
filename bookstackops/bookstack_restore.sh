@@ -64,6 +64,29 @@ rst_dbManual() {
     echo -e "\n ${Green} Completed ${Color_Off}"
 }
 
+ret_checkStatus() {
+    echo -e "\n ${Blue} Checking Bookstack container status ${Color_Off}"
+    while true; do
+        if [ "$(docker container inspect -f '{{.State.Running}}' bookstack)" == "true" ]; then
+            echo -e "\n ${Green} Container is running ${Color_Off}"
+            break
+        else
+            echo -e "\n ${Blue} Container is not running yet. Waiting... ${Color_Off}"
+            sleep 5  # Adjust the sleep duration as needed
+        fi
+    done
+    echo -e "\n ${Blue} Checking Bookstack db container status ${Color_Off}"
+    while true; do
+        if [ "$(docker container inspect -f '{{.State.Running}}' bookstack_db)" == "true" ]; then
+            echo -e "\n ${Green} Container is running ${Color_Off}"
+            break
+        else
+            echo -e "\n ${Blue} Container is not running yet. Waiting... ${Color_Off}"
+            sleep 5  # Adjust the sleep duration as needed
+        fi
+    done
+}
+
 rst_changeURL(){
     echo -e "\n ${Blue} Changing URL's in docker container ${Color_Off}"
     docker exec bookstack /bin/bash -c "cd app/www;yes | php artisan bookstack:update-url ${oldUrl} ${newUrl};php artisan cache:clear"
@@ -80,5 +103,6 @@ rst_restore
 rst_changeDockerURL
 rst_containers
 #rst_dbManual
+ret_checkStatus
 rst_changeURL
 #rst_notice
