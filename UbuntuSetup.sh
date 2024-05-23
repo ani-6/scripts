@@ -70,7 +70,6 @@ install_devTools() {
     execute "sudo apt install -y curl unzip x264 net-tools python3-dev default-libmysqlclient-dev python3.10-venv &> /dev/null"
     echo -ne "\r   \r"
 	kill $PID
-    echo ""
     print_done
 }
 
@@ -81,7 +80,6 @@ install_git() {
     execute "sudo apt install git -y &> /dev/null"
     echo -ne "\r   \r"
 	kill $PID
-    echo ""
     print_done
 }
 
@@ -95,7 +93,6 @@ install_vscode() {
 	execute "rm vscode.deb &> /dev/null"
     echo -ne "\r   \r"
 	kill $PID
-    echo ""
     print_done
 }
 
@@ -106,7 +103,6 @@ install_apache2() {
     execute "sudo apt install -y apache2 apache2-doc libexpat1 ssl-cert &> /dev/null"
     echo -ne "\r   \r"
 	kill $PID
-    echo ""
     print_done
 }
 
@@ -117,7 +113,6 @@ install_php() {
     execute "sudo apt install -qy php php-common libapache2-mod-php php-curl php-dev php-gd php-imagick php-intl php-mbstring php-mysql php-pear php-pspell php-xml php-zip php-sqlite3 &> /dev/null"
     echo -ne "\r   \r"
 	kill $PID
-    echo ""
     print_done
 }
 
@@ -130,7 +125,6 @@ install_mysql() {
     execute "DEBIAN_FRONTEND=noninteractive sudo apt -qy install mysql-server mysql-client &> /dev/null"
 	echo -ne "\r   \r"
     kill $PID
-    echo ""
     print_done
 }
 
@@ -146,7 +140,6 @@ secure_mysql() {
 EOFMYSQLSECURE"
 echo -ne "\r   \r"
     kill $PID
-    echo ""
     print_done
 }
 
@@ -163,7 +156,6 @@ install_phpmyadmin() {
     execute "DEBIAN_FRONTEND=noninteractive sudo apt -qy install phpmyadmin &> /dev/null"
 	echo -ne "\r   \r"
     kill $PID
-    echo ""
     print_done
 }
 
@@ -175,7 +167,6 @@ enable_mods() {
     execute "sudo phpenmod mbstring &> /dev/null"
 	echo -ne "\r   \r"
     kill $PID
-    echo ""
     print_done
 }
 
@@ -186,7 +177,6 @@ set_permissions() {
     execute "sudo chmod -R +777 /var/www/html &> /dev/null"
 	echo -ne "\r   \r"
     kill $PID
-    echo ""
     print_done
 }
 
@@ -194,10 +184,9 @@ set_permissions() {
 create_venv() {
 	print_message "Setting up Python venv"
 	show_dots & PID=$!
-	execute "python3 -m venv /var/www/html/test/venv &> /dev/null"
+	execute "python3 -m venv /var/www/html/venv &> /dev/null"
 	echo -ne "\r   \r"
 	kill $PID
-    echo ""
 	print_done
 }
 
@@ -212,7 +201,6 @@ install_redis() {
     execute "sudo phpenmod redis &> /dev/null"
     echo -ne "\r   \r"
 	kill $PID
-    echo ""
     print_done
 }
 
@@ -223,7 +211,6 @@ restart_apache2() {
     execute "sudo service apache2 restart &> /dev/null"
     echo -ne "\r   \r"
 	kill $PID
-    echo ""
     print_done
 }
 
@@ -235,7 +222,6 @@ install_dockerCompose() {
     execute "sudo chmod +777 /var/run/docker.sock &> /dev/null"
     echo -ne "\r   \r"
 	kill $PID
-    echo ""
     print_done
 }
 
@@ -246,7 +232,6 @@ install_libreOffice() {
     execute "sudo snap install --classic libreoffice &> /dev/null"
     echo -ne "\r   \r"
 	kill $PID
-    echo ""
     print_done
 }
 
@@ -257,7 +242,6 @@ install_opera() {
     execute "sudo snap install opera &> /dev/null"
     echo -ne "\r   \r"
 	kill $PID
-    echo ""
     print_done
 }
 
@@ -270,7 +254,6 @@ install_chrome() {
     execute "sudo rm -rf google-chrome-stable_current_amd64.deb"
     echo -ne "\r   \r"
 	kill $PID
-    echo ""
     print_done
 }
 
@@ -282,12 +265,11 @@ install_timesfont() {
     execute "sudo apt install -y ttf-mscorefonts-installer &> /dev/null"
     echo -ne "\r   \r"
 	kill $PID
-    echo ""
     print_done
 }
 
 # Main function to run all installations
-main2() {
+main() {
     update
     install_devTools
     install_git
@@ -299,14 +281,14 @@ main2() {
     install_phpmyadmin
     enable_mods
     set_permissions
-	create_venv
+    create_venv
     #install_redis
     restart_apache2
     install_dockerCompose
-    # install_libreOffice # Uncomment if needed
+    #install_libreOffice 
     #install_opera
     #install_chrome
-    install_timesfont
+    #install_timesfont
 
     echo -e "\n${Green}SUCCESS! MySQL password is: ${PASS_MYSQL_ROOT}${Color_Off}"
 }
@@ -323,3 +305,5 @@ while getopts ":d" opt; do
       ;;
   esac
 done
+
+main
