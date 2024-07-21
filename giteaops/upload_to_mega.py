@@ -19,13 +19,13 @@ def login_to_mega(email,password):
 
 def get_files_to_upload():
     try:
-        path = data_dir_path + "bookstack/" + directory
+        path = data_dir_path + "gitea/" + directory
         files = os.listdir(path)
         files_with_times = [(file, os.path.getmtime(os.path.join(path, file))) for file in files]
         
         sorted_files = sorted(files_with_times, key=lambda x: x[1], reverse=True)
         
-        return [file[0] for file in sorted_files[:2]]
+        return [file[0] for file in sorted_files[:1]]
     except Exception as error:
         print('Error: ',error)
 
@@ -35,7 +35,7 @@ def upload_files(list,m):
     try:
         folder = m.find(folder_to_upload)
         for f in list:
-            upload_file = data_dir_path + "bookstack/" + directory + '/' + f
+            upload_file = data_dir_path + "gitea/" + directory + '/' + f
             file = m.upload(upload_file, folder[0])
         return "Success"
     except Exception as error:
