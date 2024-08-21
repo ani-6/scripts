@@ -163,7 +163,7 @@ install_phpmyadmin() {
 enable_mods() {
     print_message "Enabling modules.."
     show_dots & PID=$!
-    execute "sudo a2enmod rewrite &> /dev/null"
+    execute "sudo a2enmod rewrite headers &> /dev/null"
     execute "sudo phpenmod mbstring &> /dev/null"
 	echo -ne "\r   \r"
     kill $PID
