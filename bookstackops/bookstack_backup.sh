@@ -3,6 +3,12 @@ __FILE__=$0
 
 . $(dirname $0)/config.config
 
+# Log file
+log_file="$(dirname $0)/backup.log"
+
+# Redirect stdout and stderr to log file with timestamps
+exec > >(while IFS= read -r line; do echo "$(date '+%Y-%m-%d %H:%M:%S') $line"; done | tee -a $log_file) 2>&1
+
 # Color Reset
 Color_Off='\033[0m'       # Reset
 Blue='\033[0;34m'         # Blue
@@ -47,7 +53,7 @@ bkp_mega() {
     source ${virtual_env_dir}/bin/activate
     python3 $(dirname $0)/upload_to_mega.py ${mega_email} ${mega_password} ${mega_folder} ${bkp_directory} ${data_dir_path}
     deactivate
-    echo -e "\n ${Green} Backupfiles moved to mega ${Color_Off}"
+    echo -e "\n ${Green} Backup files moved to mega ${Color_Off}"
 }
 
 #Run
