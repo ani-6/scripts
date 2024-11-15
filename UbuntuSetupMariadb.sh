@@ -88,13 +88,13 @@ install_vscode() {
     print_message "Installing Visual Studio Code.."
     show_dots & PID=$!
     execute "wget --show-progress -qO vscode.deb 'https://go.microsoft.com/fwlink/?LinkID=760868'"
-	execute "sudo dpkg -i vscode.deb &> /dev/null"
-	execute "sudo apt-get install -f -y &> /dev/null"
-	execute "rm vscode.deb &> /dev/null"
+    execute "sudo DEBIAN_FRONTEND=noninteractive apt-get install -f -y &> /dev/null"
+    execute "rm vscode.deb &> /dev/null"
     echo -ne "\r   \r"
-	kill $PID
+    kill $PID
     print_done
 }
+
 
 # Install Apache2
 install_apache2() {
